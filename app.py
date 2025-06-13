@@ -30,7 +30,7 @@ def download_model_from_gdrive(file_id, output_path):
 
 # --- PANGGIL FUNGSI DOWNLOAD SEBELUM MEMUAT MODEL ---
 # Ganti ID di bawah ini dengan ID file Google Drive Anda
-ALEXNET_GDRIVE_ID = "1aBcDeFgHiJkLmNoPqRsTuVwXyZ_12345" # <-- GANTI DENGAN ID ANDA
+ALEXNET_GDRIVE_ID = "https://drive.google.com/file/d/1LQZ_J3ttMR56dcibRtLuoSHBC1GByAQR/view?usp=sharing" # <-- GANTI DENGAN ID ANDA
 ALEXNET_MODEL_PATH = "AlexNet.h5"
 LENET_MODEL_PATH = "LeNet-5.h5"
 
