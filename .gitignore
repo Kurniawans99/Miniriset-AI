@@ -1,5 +1,5 @@
 # Abaikan semua file model
-*.h5
+AlexNet.h5
 
 # File-file umum Python yang tidak perlu di-upload
 __pycache__/

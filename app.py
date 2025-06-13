@@ -10,6 +10,33 @@ from streamlit_drawable_canvas import st_canvas
 import math
 import time
 
+# Tambahkan import ini di bagian atas
+import os
+import gdown
+
+# --- FUNGSI BARU UNTUK DOWNLOAD MODEL ---
+def download_model_from_gdrive(file_id, output_path):
+    """
+    Mengecek jika model ada, jika tidak, unduh dari Google Drive.
+    """
+    if not os.path.exists(output_path):
+        with st.spinner(f"Mengunduh model besar ({output_path})... Ini mungkin butuh beberapa menit."):
+            try:
+                gdown.download(id=file_id, output=output_path, quiet=False)
+                st.success(f"Model {output_path} berhasil diunduh.")
+            except Exception as e:
+                st.error(f"Gagal mengunduh model. Error: {e}")
+                st.stop() # Hentikan eksekusi aplikasi jika model gagal diunduh
+
+# --- PANGGIL FUNGSI DOWNLOAD SEBELUM MEMUAT MODEL ---
+# Ganti ID di bawah ini dengan ID file Google Drive Anda
+ALEXNET_GDRIVE_ID = "1aBcDeFgHiJkLmNoPqRsTuVwXyZ_12345" # <-- GANTI DENGAN ID ANDA
+ALEXNET_MODEL_PATH = "AlexNet.h5"
+LENET_MODEL_PATH = "LeNet-5.h5"
+
+# Panggil fungsi download untuk model besar
+download_model_from_gdrive(ALEXNET_GDRIVE_ID, ALEXNET_MODEL_PATH)
+
 # --- 1. KONFIGURASI HALAMAN & GAYA ---
 st.set_page_config(
     page_title="Analisis Visual CNN | Final Layout",
@@ -44,8 +71,9 @@ st.markdown("""
 def load_models():
     """Memuat model dari file .h5 dengan caching."""
     try:
-        lenet_model = keras.models.load_model("LeNet-5.h5")
-        alexnet_model = keras.models.load_model("AlexNet.h5")
+        # Gunakan variabel path yang sudah didefinisikan
+        lenet_model = keras.models.load_model(LENET_MODEL_PATH)
+        alexnet_model = keras.models.load_model(ALEXNET_MODEL_PATH)
         return lenet_model, alexnet_model
     except Exception as e:
         st.error(f"❌ **Error Memuat Model:** {e}", icon="🚨")
