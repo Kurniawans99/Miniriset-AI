@@ -8,9 +8,6 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 from streamlit_drawable_canvas import st_canvas
 import math
-import time
-
-# Tambahkan import ini di bagian atas
 import os
 import gdown
 
