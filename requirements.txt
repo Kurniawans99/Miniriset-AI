@@ -1,15 +1,13 @@
+# "Magic Comment" untuk memberitahu Streamlit Cloud agar menggunakan Python 3.11
+# streamlit-python-version: 3.11
 
-streamlit==1.29.0
-
-pandas==1.5.3
-
-tensorflow-cpu==2.10.1
-keras==2.10.0
-
-numpy==1.23.5
-
-plotly==5.18.0
-opencv-python-headless==4.8.0.76
+streamlit==1.35.0
+pandas==2.2.2
+plotly==5.22.0
+opencv-python-headless==4.9.0.80
 streamlit-drawable-canvas==0.9.3
-matplotlib==3.7.2
+matplotlib==3.8.4
 gdown==5.2.0
+
+tensorflow-cpu==2.16.1
+
