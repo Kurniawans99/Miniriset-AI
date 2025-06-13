@@ -8,33 +8,9 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 from streamlit_drawable_canvas import st_canvas
 import math
-import os
-import gdown
 
-# --- FUNGSI BARU UNTUK DOWNLOAD MODEL ---
-def download_model_from_gdrive(file_id, output_path):
-    """
-    Mengecek jika model ada, jika tidak, unduh dari Google Drive.
-    """
-    if not os.path.exists(output_path):
-        with st.spinner(f"Mengunduh model besar ({output_path})... Ini mungkin butuh beberapa menit."):
-            try:
-                gdown.download(id=file_id, output=output_path, quiet=False)
-                st.success(f"Model {output_path} berhasil diunduh.")
-            except Exception as e:
-                st.error(f"Gagal mengunduh model. Error: {e}")
-                st.stop() # Hentikan eksekusi aplikasi jika model gagal diunduh
 
-# --- PANGGIL FUNGSI DOWNLOAD SEBELUM MEMUAT MODEL ---
-# Ganti ID di bawah ini dengan ID file Google Drive Anda
-ALEXNET_GDRIVE_ID = "https://drive.google.com/file/d/1LQZ_J3ttMR56dcibRtLuoSHBC1GByAQR/view?usp=sharing" # <-- GANTI DENGAN ID ANDA
-ALEXNET_MODEL_PATH = "AlexNet.h5"
-LENET_MODEL_PATH = "LeNet-5.h5"
 
-# Panggil fungsi download untuk model besar
-download_model_from_gdrive(ALEXNET_GDRIVE_ID, ALEXNET_MODEL_PATH)
-
-# --- 1. KONFIGURASI HALAMAN & GAYA ---
 st.set_page_config(
     page_title="Analisis Visual CNN | Final Layout",
     page_icon="🎯",
@@ -62,18 +38,27 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. FUNGSI-FUNGSI HELPER DENGAN CACHING ---
+ALEXNET_MODEL_PATH = "AlexNet.h5"
+LENET_MODEL_PATH = "LeNet-5.h5"
 
 @st.cache_resource
 def load_models():
-    """Memuat model dari file .h5 dengan caching."""
+    """Memuat model dari file .h5 lokal dengan caching."""
     try:
-        # Gunakan variabel path yang sudah didefinisikan
+        # Langsung muat model dari path lokal
         lenet_model = keras.models.load_model(LENET_MODEL_PATH)
         alexnet_model = keras.models.load_model(ALEXNET_MODEL_PATH)
         return lenet_model, alexnet_model
     except Exception as e:
-        st.error(f"❌ **Error Memuat Model:** {e}", icon="🚨")
+        # Menambahkan pesan error yang lebih spesifik jika file tidak ditemukan
+        if isinstance(e, FileNotFoundError):
+            st.error(
+                f"❌ **Error Model Tidak Ditemukan:** Pastikan file '{LENET_MODEL_PATH}' dan '{ALEXNET_MODEL_PATH}' "
+                "ada di repository Anda dan telah di-push dengan benar (disarankan menggunakan Git LFS).",
+                icon="🚨"
+            )
+        else:
+            st.error(f"❌ **Error Memuat Model:** {e}", icon="🚨")
         return None, None
 
 def create_prob_chart(probs, title, color_scale):

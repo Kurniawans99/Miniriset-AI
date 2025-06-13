@@ -7,4 +7,3 @@ pandas==2.3.0
 plotly==6.1.2
 matplotlib==3.10.3
 streamlit-drawable-canvas==0.9.3
-gdown==5.2.0

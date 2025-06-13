@@ -1,9 +1,10 @@
 # Abaikan semua file model
-AlexNet.h5
-test.py
+environment.yml
 
 # File-file umum Python yang tidak perlu di-upload
 __pycache__/
 *.pyc
 .env
 venv/
+
+test.py
