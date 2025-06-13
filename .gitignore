@@ -1,0 +1,8 @@
+# Abaikan semua file model
+*.h5
+
+# File-file umum Python yang tidak perlu di-upload
+__pycache__/
+*.pyc
+.env
+venv/
